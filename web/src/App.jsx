@@ -1,17 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { MagnifyingGlassPlus } from 'phosphor-react';
 import logoImg from './assets/logo-nlw-esports.svg';
 import './styles/main.css';
 
 function App() {
+  const [games, setGames] = useState([]);
   useEffect(() => {
-    // fetch('https://api.twitch.tv/helix/games/top', {
-    //   headers: {
-    //     Authorization: 'Bearer ragzjenvlhfig0ufij7d763ff1sv3z',
-    //   },
-    // })
-    //   .then((response) => response.json())
-    //   .then((response) => console.log(response));
+    fetch('http://localhost:3000/games')
+      .then((response) => response.json())
+      .then((response) => setGames(response));
   }, []);
 
   return (
@@ -26,78 +23,21 @@ function App() {
       </h1>
 
       <div className="grid grid-cols-6 gap-6 mt-16">
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
+        {games &&
+          games.map((game) => (
+            <a href="" className="relative rounded-lg overflow-hidden">
+              <img src={game.bannerUrl} alt="" />
 
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
-        <a href="" className="relative rounded-lg overflow-hidden">
-          <img src="./game-1.png" alt="" />
-
-          <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
-            <strong className="font-bold text-white block">
-              League of Legends
-            </strong>
-            <span className="text-zinc-300 font-bold text-sm block">
-              4 anúncios
-            </span>
-          </div>
-        </a>
+              <div className="w-full pt-16 pb-4 px-4 bg-game-gradient absolute bottom-0 left-0 right-0">
+                <strong className="font-bold text-white block">
+                  {game.title}
+                </strong>
+                <span className="text-zinc-300 font-bold text-sm block">
+                  {game._count.ads} anúncio{game._count.ads === 1 ? '' : 's'}
+                </span>
+              </div>
+            </a>
+          ))}
       </div>
       <div className="pt-1 mt-8 bg-nlw-gradient self-stretch rounded-lg overflow-hidden">
         <div className="bg-[#2a2634] px-8 py-6 flex justify-between items-center">
